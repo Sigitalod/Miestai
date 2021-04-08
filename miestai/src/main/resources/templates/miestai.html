@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Miestai</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<style>
+		label, input { display:block; }
+	    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+	    fieldset { padding:0; border:0; margin-top:25px; }
+	    h1 { font-size: 1.2em; margin: .6em 0; }
+	    div#users-contain { width: 350px; margin: 20px 0; }
+	    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+	    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+	    .ui-dialog .ui-state-error { padding: .3em; }
+	    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+	</style>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script>
+  		function addMiestas() {
+  		
+  			alert( "Pridėti?" );
+  			$( '#miesto-forma' ).submit();
+  			
+  		}
+  	
+  		$( document ).ready ( function() {
+  		
+		    dialog = $( "#dialog-form" ).dialog({
+		      autoOpen: false,
+		      height: 400,
+		      width: 350,
+		      modal: true,
+		      buttons: {
+		        "Saugoti": addMiestas,
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        }
+		      },
+		      close: function() {
+		       //  form[ 0 ].reset();
+		        // allFields.removeClass( "ui-state-error" );
+		      }
+		    }); 
+		    
+		    $( "#new_miestas" ).button().on ( "click", function() {
+		    
+		      alert ( 'atidarom dialogo langą' );
+		      dialog.dialog( "open" );
+		    });
+		    
+		    $( ".edit" ).each ( function() {
+		    
+		    	$( this ).click ( function() {
+		    	
+		    		id_miesto = $( this ).data ( 'el_id' );
+		    		
+					$.ajax({
+						 method: 'POST'
+				 		 , url: '/miestas'
+				 		 , data: {
+				 		 	id: id_miesto
+				 		 }
+					}).done( function( data ) {
+						
+						// alert ( "gauti duomenys: " + data );
+						if ( data != null ) {
+						
+							$( '#pav' ).val ( data.pavadinimas );
+							$( '#salies_kodas' ).val ( data.salies_kodas );
+							$( '#ikurimo_data' ).val ( data.ikurimo_data );
+							$( '#gyventojai' ).val ( data.gyventojai );
+							$( '#plotas' ).val ( data.plotas );					
+							$( '#id').val ( data.id );
+		      				dialog.dialog( "open" );							
+						}
+						console.log ( JSON.stringify ( data ) );
+				  	});	
+				});		    		
+		    });			    
+		  }); 
+  	</script>	
+</head>
+<body>
+	<h3>Miestai</h3>
+	
+	<table>
+		<tr th:each="miestas : ${miestai}">
+			<td th:text="${miestas.getPavadinimas()}"></td>
+			<td th:text="${miestas.getSalies_kodas()}"></td>
+			<td th:text="${miestas.getSalis()} == null ? '???' : ${miestas.getSalis().getSalis()}"></td>	
+			<td th:text="${miestas.getIkurimo_data()}"></td>	
+			<td th:text="${miestas.getGyventojai()}"></td>
+			<td th:text="${miestas.getPlotas()}"></td>
+			<td><input type="button" class="edit" th:attr="data-el_id=${miestas.getId()}" value="&#9998;"></td>		
+		</tr>
+	</table>
+	
+	<input type="button" id="new_miestas" value="Naujas miestas">
+	<div id="dialog-form" title="Miestas">
+  		<p class="validateTips">All form fields are required.</p>	
+		<form id="miesto-forma" method="POST" action="">
+			<fieldset>
+				<label for="pavadinimas">Pavadinimas</label>
+				<input name="pav" id="pav" type="text">
+				<label for="salies_kodas">Šalies kodas</label>
+				<input name="salies_kodas" id="salies_kodas" type="text">
+				<label for="ikurimo_data">Įkūrimo data</label>
+				<input name="ikurimo_data" id="ikurimo_data" type="text">
+				<label for="gyventojai">Gyventojai</label>
+				<input name="gyventojai" id="gyventojai" type="text">
+				<label for="plotas">Plotas</label>
+				<input name="plotas" id="plotas" type="text">
+				<input type="hidden" id="id" name="id" value="0">
+				<input type="hidden" name="saugoti" class="frm_button" value="saugoti">	
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">	
+			</fieldset>
+		</form>
+	</div>	
+</body>
+</html>

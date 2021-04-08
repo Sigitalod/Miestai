@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Miestai</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<style>
+	    label, input { display:block; }
+	    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+	    fieldset { padding:0; border:0; margin-top:25px; }
+	    h1 { font-size: 1.2em; margin: .6em 0; }
+	    div#users-contain { width: 350px; margin: 20px 0; }
+	    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+	    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+	    .ui-dialog .ui-state-error { padding: .3em; }
+	    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+	  </style>	
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script>
+ 
+  		function addSalis() {
+  		
+  			alert( "Pridėti?" );
+  			$( '#salies-forma' ).submit();
+  			
+  		}
+  	
+  		$( document ).ready ( function() {
+  		
+		    dialog = $( "#dialog-form" ).dialog({
+		      autoOpen: false,
+		      height: 400,
+		      width: 350,
+		      modal: true,
+		      buttons: {
+		        "Saugoti": addSalis,
+		        Cancel: function() {
+		          dialog.dialog( "close" );
+		        }
+		      },
+		      close: function() {
+		       //  form[ 0 ].reset();
+		        // allFields.removeClass( "ui-state-error" );
+		      }
+		    }); 
+		    
+		    $( "#new_salis" ).button().on ( "click", function() {
+		    
+		      alert ( 'atidarom dialogo langa' );
+		      dialog.dialog( "open" );
+		    });
+		    	
+		    $( ".edit" ).each ( function() {
+		    
+		    	$( this ).click ( function() {
+		    	
+		    		id_salies = $( this ).data ( 'el_id' );
+		    		
+					$.ajax({
+						 method: 'POST'
+				 		 , url: '/salys'
+				 		 , data: {
+				 		 	id: id_salies
+				 		 }
+					}).done( function( data ) {
+						
+						// alert ( "gauti duomenys: " + data );
+						if ( data != null ) {
+						
+							$( '#salis' ).val ( data.salis );
+							$( '#salies_kodas' ).val ( data.salies_kodas );			
+							$( '#id').val ( data.id );
+		      				dialog.dialog( "open" );							
+						}
+						console.log ( JSON.stringify ( data ) );
+				  	});			    		
+		    		
+		    	});	
+		    			    
+		    });
+		  }); 
+	
+  	</script>	
+</head>
+<body>
+	<h3>Salys</h3>
+	
+	<table>
+		<tr th:each="salis : ${salys}">
+			<td th:text="${salis.getSalis()}"></td>
+			<td th:text="${salis.getSalies_kodas()}"></td>
+			<td><input type="button" class="edit" th:attr="data-el_id=${salis.getId()}" value="&#9998"></td>				
+		</tr>
+	</table>	
+	<input type="button" id="new_salis" value="Nauja šalis">
+	<div id="dialog-form" title="Šalis">
+  		<p class="validateTips">All form fields are required.</p>	
+		<form id="salies-forma" method="POST" action="">
+			  <fieldset>
+				<label for="salis">Šalis</label>
+				<input name="salis" id="salis" type="text">
+				<label for="salies_kodas">Šalies kodas</label>		
+				<input name="salies_kodas" id="salies_kodas" type="text"> 
+				<input type="hidden" id="id" name="id" value="0">	
+				<input type="hidden" name="saugoti" class="frm_button" value="saugoti">
+			    <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">				
+			  </fieldset>
+		</form>	
+	</div>	
+</body>
+</html>
