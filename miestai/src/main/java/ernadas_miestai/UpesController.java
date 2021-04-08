@@ -18,7 +18,6 @@ public class UpesController {
 	@RequestMapping(path="/upes", method={ RequestMethod.GET, RequestMethod.POST })
     public String upes(@RequestParam(name="id", required=false, defaultValue="0") Integer id 
 			, @RequestParam(name="pav", required=false, defaultValue="") String pav
-			, @RequestParam(name="miestai_pro_kuriuos_teka", required=false, defaultValue="") String miestai_pro_kuriuos_teka	
 			, @RequestParam(name="saugoti", required=false, defaultValue="nesaugoti") String saugoti			
 			, Model model) {
 		
@@ -46,8 +45,8 @@ public class UpesController {
 				}
 			}	
 			
-		    upes.setUpes( pav );
-		   upes.setMiestai_pro_kuriuos_teka(miestai_pro_kuriuos_teka);
+		    upes.setPavadinimas( pav );
+
 
 		  
 		    upes_repository.save ( upes );

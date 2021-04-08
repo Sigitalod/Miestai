@@ -45,9 +45,24 @@
 		      }
 		    }); 
 		    
+		     $( document ).ready ( function() ) {
+		     	dialog =  $( "#dialog-confirm" ).dialog({
+		     		resizable: false,
+		     		height: "auto",
+		     		width: 400,
+		     		modal: true,
+		     		buttons: {
+		     			"Delete all items": function() {
+		     				 $( this ).dialog("close");
+		     				}
+		     			}
+		     		});
+		     	} ); 
+		    
 		    $( "#new_miestas" ).button().on ( "click", function() {
 		    
 		      alert ( 'atidarom dialogo langą' );
+		      
 		      dialog.dialog( "open" );
 		    });
 		    
@@ -55,13 +70,13 @@
 		    
 		    	$( this ).click ( function() {
 		    	
-		    		id_miesto = $( this ).data ( 'el_id' );
+		    		miestai_id = $( this ).data ( 'el_id' );
 		    		
 					$.ajax({
 						 method: 'POST'
-				 		 , url: '/miestas'
+				 		 , url: '/miestai'
 				 		 , data: {
-				 		 	id: id_miesto
+				 		 	id: miestai_id
 				 		 }
 					}).done( function( data ) {
 						
@@ -79,8 +94,34 @@
 						console.log ( JSON.stringify ( data ) );
 				  	});	
 				});		    		
-		    });			    
-		  }); 
+		    });	
+		    
+		     $( ".delete" ).each ( function() ) {
+		     
+		      $( this ).click ( function() {
+		      
+		      	miestai_id =  $( this ).data ( 'delete_id');
+		      	
+		      	 $.ajax({
+		      	 	method: 'Get'
+		      	 		, url: '/salinti-miestai'
+		      	 		, data: {
+		      	 			id miestai_id
+		      	 	}
+		      	 }).done( function( data ) {
+		      	 	if ( data != null ) {
+		      	 	 $( '#id' ).val ( data.id );
+		      	 	 dialog.dialog(open);
+		      	 	 location.reload();
+		      	 	}
+		      	 	console.log ( JSON.stringify ( data ) );
+		      	 });
+		      	
+		      });
+		    
+		  });
+ }); 
+ 
   	</script>	
 </head>
 <body>
@@ -94,7 +135,8 @@
 			<td th:text="${miestas.getIkurimo_data()}"></td>	
 			<td th:text="${miestas.getGyventojai()}"></td>
 			<td th:text="${miestas.getPlotas()}"></td>
-			<td><input type="button" class="edit" th:attr="data-el_id=${miestas.getId()}" value="&#9998;"></td>		
+			<td><input type="button" class="edit" th:attr="data-el_id=${miestas.getId()}" value="&#9998;"></td>
+			<td><input type="button" class="delete" th:attr="data-el_id=${miestas.getId()}" value="&#10006"></td>				
 		</tr>
 	</table>
 	

@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-public class Miestas {
+public class Miestai {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

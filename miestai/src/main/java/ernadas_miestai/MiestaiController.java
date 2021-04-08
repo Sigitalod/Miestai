@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MiestaiController {
 	
 	@Autowired
-	private MiestasRepository miestas_repository;	
+	private MiestaiRepository miestas_repository;	
 
 	
 	@RequestMapping(path="/miestai", method={ RequestMethod.GET, RequestMethod.POST })
@@ -30,13 +32,13 @@ public class MiestaiController {
 		
 		String rez = "Neatlikta";
 		
-		Miestas miestas = new Miestas();
+		Miestai miestas = new Miestai();
 		
 		if ( saugoti.equals( "saugoti" ) ) {
 			
 			if (id > 0) {
 				
-				Optional <Miestas> found = miestas_repository.findById( id );
+				Optional <Miestai> found = miestas_repository.findById( id );
 			
 				// variantas trynimuiui
 				// uzsakymaiRepository.deleteById(id);
@@ -70,15 +72,15 @@ public class MiestaiController {
 	}
 	
 	@RequestMapping(path="/miestas")	
-	public @ResponseBody Miestas miestoDuom(@RequestParam(name="id", required=true, defaultValue="0") Integer id ) throws IOException {
+	public @ResponseBody Miestai miestoDuom(@RequestParam(name="id", required=true, defaultValue="0") Integer id ) throws IOException {
 		
 		String rez;
 		
-		Miestas miestas = new Miestas();
+		Miestai miestas = new Miestai();
 		
 		if (id > 0) {
 			
-			Optional <Miestas> found = miestas_repository.findById( id );
+			Optional <Miestai> found = miestas_repository.findById( id );
 		
 			// variantas trynimuiui
 			// uzsakymaiRepository.deleteById(id);
@@ -97,25 +99,26 @@ public class MiestaiController {
 		return miestas;
 	}
 	
-	/*
-	@GetMapping(path="/salinti-tiekeja") // Map ONLY GET Requests
-	public @ResponseBody String salintiTiekeja (@RequestParam Integer id 
+	
+	@GetMapping(path="/salinti-miestai") // Map ONLY GET Requests
+	public @ResponseBody String salintiMiestai (@RequestParam Integer id 
 			) {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
 		
-		Optional <Tiekejai> found = tiekejaiRepository.findById( id );
+		CrudRepository<Miestai, Integer> MiestaiRepository;
+		Optional <Miestai> found = MiestaiRepository.findById( id );
 		
 		String res = "Not done";
 		
 		if ( found.isPresent() ) {
 			
-			   Tiekejai n = found.get();
-			   tiekejaiRepository.deleteById(id);
+			   miestai = found.get();
+			   MiestaiRepository.deleteById(id);
 			   res = "Deleted";
 		}		
 		return res;
 	}
-	*/	
+		
 
 }

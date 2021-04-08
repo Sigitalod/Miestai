@@ -90,7 +90,8 @@
 		<tr th:each="salis : ${salys}">
 			<td th:text="${salis.getSalis()}"></td>
 			<td th:text="${salis.getSalies_kodas()}"></td>
-			<td><input type="button" class="edit" th:attr="data-el_id=${salis.getId()}" value="&#9998"></td>				
+			<td><input type="button" class="edit" th:attr="data-el_id=${salis.getId()}" value="&#9998"></td>
+			<td><input type="button" class="delete" th:attr="data-el_id=${salis.getId()}" value="&#10006"></td>				
 		</tr>
 	</table>	
 	<input type="button" id="new_salis" value="Nauja šalis">
@@ -98,8 +99,8 @@
   		<p class="validateTips">All form fields are required.</p>	
 		<form id="salies-forma" method="POST" action="">
 			  <fieldset>
-				<label for="salis">Šalis</label>
-				<input name="salis" id="salis" type="text">
+				<label for="pav">Salis</label>
+				<input name="pav" id="salis" type="text">
 				<label for="salies_kodas">Šalies kodas</label>		
 				<input name="salies_kodas" id="salies_kodas" type="text"> 
 				<input type="hidden" id="id" name="id" value="0">	
