@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Miestai</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<table>
+		<tr th:each="lst_upes_gyventojai : ${lst_upiu_gyventojai}">
+			<td th:text="${lst_upes_gyventojai[0]}"></td>
+			<td th:text="${lst_upes_gyventojai[1]}"></td>
+			<td th:text="${lst_upes_gyventojai[2]}"></td>
+			<td th:text="${lst_upes_gyventojai[3]}"></td>			
+		</tr>
+	</table>	
+</body>
+</html>
