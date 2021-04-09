@@ -106,15 +106,18 @@ public class MiestaiController {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
 		
-		CrudRepository<Miestai, Integer> MiestaiRepository;
-		Optional <Miestai> found = MiestaiRepository.findById( id );
+		
+		
+		Optional <Miestai> found = miestas_repository.findById( id );
+		
+		Miestai miestai = new Miestai ();
 		
 		String res = "Not done";
 		
 		if ( found.isPresent() ) {
 			
 			   miestai = found.get();
-			   MiestaiRepository.deleteById(id);
+			   miestas_repository.deleteById(id);
 			   res = "Deleted";
 		}		
 		return res;

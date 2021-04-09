@@ -55,13 +55,13 @@
 		    
 		    	$( this ).click ( function() {
 		    	
-		    		id_salies = $( this ).data ( 'el_id' );
+		    		salys_id = $( this ).data ( 'el_id' );
 		    		
 					$.ajax({
 						 method: 'POST'
 				 		 , url: '/salys'
 				 		 , data: {
-				 		 	id: id_salies
+				 		 	id: salys_id
 				 		 }
 					}).done( function( data ) {
 						
@@ -79,7 +79,31 @@
 		    	});	
 		    			    
 		    });
-		  }); 
+		    
+		     $( ".delete" ).each ( function() ) {
+		     
+		      $( this ).click ( function() {
+		      
+		      	salys_id =  $( this ).data ( 'delete_id');
+		      	
+		      	 $.ajax({
+		      	 	method: 'Get'
+		      	 		, url: '/salinti-salys'
+		      	 		, data: {
+		      	 			id salys_id
+		      	 	}
+		      	 }).done( function( data ) {
+		      	 	if ( data != null ) {
+		      	 	 $( '#id' ).val ( data.id );
+		      	 	 dialog.dialog(open);
+		      	 	 location.reload();
+		      	 	}
+		      	 	console.log ( JSON.stringify ( data ) );
+		      	 });
+		      });
+		      	
+		  });   
+});
 	
   	</script>	
 </head>
