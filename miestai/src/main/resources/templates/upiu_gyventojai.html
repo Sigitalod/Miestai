@@ -12,6 +12,13 @@
 			<td th:text="${lst_upes_gyventojai[2]}"></td>
 			<td th:text="${lst_upes_gyventojai[3]}"></td>			
 		</tr>
-	</table>	
+	</table>
+	<div class = form>	
+		<form id="gyventoju_skaicius-forma" method="POST" action="">
+				<label for="gyv_sk">Gyventojų skaičius</label>
+				<input name="gyvena_daugiau_negu" id="gyv_sk" type="text">
+				<input type="submit" name="ieskoti" class="frm_button" value="Ieškoti">	
+		</form>
+	</div>		
 </body>
 </html>

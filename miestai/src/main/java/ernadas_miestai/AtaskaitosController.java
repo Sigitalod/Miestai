@@ -33,22 +33,24 @@ public class AtaskaitosController {
 
 	
 	@RequestMapping(path="/upiu-gyventojai", method={ RequestMethod.GET, RequestMethod.POST })
-    public String miestai( @RequestParam(name="gyvena_daugiau_negu", required=false, defaultValue="0") Integer gyvena_daugiau_negu 
-			, @RequestParam(name="ieskoti", required=false, defaultValue="neieskoti") String ieskoti			
+    public String miestai( @RequestParam(name="gyvena_daugiau_negu", required=false, defaultValue="100000") Integer gyvena_daugiau_negu 
+			, @RequestParam(name="ieskoti", required=false, defaultValue="Neieskoti") String ieskoti			
 			, Model model) {
 		
 		String rez = "Neatlikta";
+		System.out.println ( gyvena_daugiau_negu );
 		
-		Miestai miestas = new Miestai();
+		/*if ( ieskoti.equals("Ieškoti")) {
 		
-		if ( gyvena_daugiau_negu == null ) {
+			if ( gyvena_daugiau_negu == null ) {
 			
-			gyvena_daugiau_negu = 100000;
+				gyvena_daugiau_negu = 100000;
 			
 
-		    rez = "Saugoti";
+				rez = "Saugoti";
 		    
-		}
+				}
+		}*/
 		
 		Session session = this.sessionFactory().openSession();
 		
